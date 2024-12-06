@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Shopping Cart</h1>
+
+            {% if empty %}
+                <div class="notification is-warning">
+                    Your cart is empty. Start adding products!
+                </div>
+                <a href="{{ url_for('show_homepage') }}" class="button is-primary">Browse Products</a>
+            {% else %}
+                <table class="table is-fullwidth is-bordered">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>
+                                <figure class="image is-64x64">
+                                    <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                                </figure>
+                                <p>{{ item.name }}</p>
+                            </td>
+                            <td>{{ item.description }}</td>
+                            <td>${{ "%.2f" | format(item.price) }}</td>
+                            <td>
+                                <form method="post" action="{{ url_for('remove_from_cart', product_id=item.id) }}">
+                                    <button class="button is-danger" type="submit">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="buttons">
+                    <a href="{{ url_for('show_homepage') }}" class="button is-link">Continue Shopping</a>
+                    <button class="button is-success">Proceed to Checkout</button>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Luther Farms</h1>
+            <p class = "content">Due to limited availability only one quantity restricted to per user. Sorry for the inconvenince. Sign up as a farmer to support us cater more demands.</p>
+
+            <div class="buttons">
+                <a href="{{ url_for('show_inventory') }}" class="button is-primary">Farmer Dashboard</a>
+                <a href="{{ url_for('view_cart') }}" class="button is-link">View Cart</a>
+            </div>
+
+            <div class="columns is-multiline">
+                {% for product in products %}
+                <div class="column is-one-quarter">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <p class="title is-4">{{ product.name }}</p>
+                            <p class="subtitle is-6">${{ product.price }}</p>
+                            <p>{{ product.description }}</p>
+                            <p>
+                                {% if product.availability %}
+                                <span class="tag is-success">In Stock</span>
+                                {% else %}
+                                <span class="tag is-danger">Out of Stock</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <footer class="card-footer">
+                            {% if product.availability %}
+                            <form method="post" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+                                <button class="card-footer-item button is-link" type="submit">Add to Cart</button>
+                            </form>
+                            {% else %}
+                            <span class="card-footer-item button is-light" disabled>Unavailable</span>
+                            {% endif %}
+                        </footer>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</body>
+</html>

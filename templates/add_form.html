@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+{% block form %}
+<form action="/add" method="post">
+    {{ form.csrf_token }}
+    <div class="field">
+        <label>{{ form.name.label(class="label") }}</label>
+        <div class="control">{{ form.name(class="input is-fullwidth") }}</div>
+    </div>
+    <div class="field">
+        <label>{{ form.image_url.label(class="label") }}</label>
+        <div class="control">{{ form.image_url(class="input is-fullwidth") }}</div>
+    </div>
+    <div class="field">
+        <label>{{ form.description.label(class="label") }}</label>
+        <div class="control">{{ form.description(class="textarea is-fullwidth") }}</div>
+    </div>
+    <div class="field">
+        <label>{{ form.availability.label(class="label") }}</label>
+        <div class="control">
+            {{ form.availability() }}
+            <span>Available</span>
+        </div>
+    </div>
+    <div class="field">
+        <label>{{ form.price.label(class="label") }}</label>
+        <div class="control">{{ form.price(class="input is-fullwidth", min="0", step="0.01") }}</div>
+    </div>
+
+    <input type="submit" class="button is-primary is-fullwidth" value="Add Product">
+</form>
+{% endblock form %}
